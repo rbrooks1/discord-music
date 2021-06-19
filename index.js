@@ -18,7 +18,7 @@ client.on('message', async message => {
 	if (message.member.voice.channel && msg === "play") {
 		const connection = await message.member.voice.channel.join();
 		let audio = ytdl(arg);
-		let dispatcher = connection.play(audio, {filter: 'audioonly', bitrate: 96000, volume: 0.5}).on("finish", () => {
+		let dispatcher = connection.play(audio, {type: 'opus', filter: 'audioonly', highWaterMark: 1<<30, bitrate: 96000, volume: 0.5}).on("finish", () => {
 			message.member.voice.channel.leave();
 		});
 	} else if (message.member.voice.channel && msg === "disconnect") {
