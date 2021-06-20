@@ -80,21 +80,16 @@ client.on('message', async message => {
 		queue = [];
 		playing = 0;
 		message.member.voice.channel.leave();
-	} else if (message.member.voice.channel && msg === "join") {
-		const connection = await message.member.voice.channel.join();
-	} else if (message.member.voice.channel && msg === "data") {
-		//TODO: get data from single song
-		if (String(arg).includes("index")) {
-			const playlist = await ytpl(String(arg));
-			var items = playlist.items;
-			console.log(items);
-		} else {
-			const song = await ytdl.getInfo(arg);
-			var title = song.title;
-			console.log(title);
-		}
 	} else if (message.member.voice.channel && msg === "queue") {
 		message.channel.send(queue);
+	} else if (message.member.voice.channel && msg === "skip") {
+		if (queue.length > 1) {
+			const connection = await message.member.voice.channel.join();
+			queue.shift();
+			play(connection, message);
+		} else {
+			message.channel.send("On final song of queue");
+		}
 	}
 });
 
