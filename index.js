@@ -70,8 +70,16 @@ client.on('message', async message => {
 			} else {
 				queue.push(arg);
 			}
-			if (queue.length > 0) {
+			if (queue.length > 0 && queue[0] !== undefined) {
 				await play(connection, message);
+			} else {
+				message.channel.send("Could not play this song.  Moving to next");
+				queue.shift();
+				if (queue[0]) {
+					await play(connection, message);
+				} else {
+					message.channel.send("No more songs in queue");
+				}
 			}
 		} else {
 			message.channel.send("Not a valid command");
