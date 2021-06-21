@@ -49,7 +49,7 @@ client.on('message', async message => {
 				if (music === null || music === undefined) {
 					message.channel.send("Could not find playlist");
 				} else {
-					var items = music.items;
+					var items = await music.items;
 					for (var i = 0; i < items.length; i++) {
 						var URL = items[i].shortUrl;
 						queue.push(URL);
@@ -57,13 +57,13 @@ client.on('message', async message => {
 				}
 			} else if (String(arg).includes("start_radio")) {
 				const id = getVideoId(String(arg));
-				var mix = await ytmpl(id.id);
+				const mix = await ytmpl(id.id);
 				if (mix === null || mix === undefined) {
 					message.channel.send("Could not find playlist");
 				} else {
-					var items = mix.items;
+					var items = await mix.items;
 					for (var i = 0; i < items.length; i++) {
-						var URL = items[i].shortUrl;
+						var URL = items[i].url;
 						queue.push(URL);
 					}
 				}
@@ -99,7 +99,7 @@ client.on('message', async message => {
 				} else {
 					var items = mix.items;
 					for (var i = 0; i < items.length; i++) {
-						var URL = items[i].shortUrl;
+						var URL = items[i].url;
 						queue.push(URL);
 					}
 				}
